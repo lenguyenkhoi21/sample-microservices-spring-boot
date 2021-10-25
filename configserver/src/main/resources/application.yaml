@@ -1,0 +1,19 @@
+server:
+  port: 8071
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: git
+  cloud:
+    config:
+      server:
+        git:
+          uri: git@github.com:lenguyenkhoi21/configserver-file.git
+
+management:
+  endpoints:
+    web:
+      exposure:
+        exclude: "*"

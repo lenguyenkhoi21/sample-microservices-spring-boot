@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: services-a
+  profiles:
+    active: dev
+  cloud:
+    config:
+      uri: http://localhost:8071
+
