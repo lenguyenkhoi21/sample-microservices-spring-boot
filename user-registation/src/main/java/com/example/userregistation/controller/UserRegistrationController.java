@@ -39,7 +39,6 @@ public class UserRegistrationController {
         UseRegistration payload = UseRegistration
                 .builder()
                 .username(userDTO.getUsername())
-                .email(userDTO.getEmail())
                 .build();
 
         HttpEntity<UseRegistration> request = new HttpEntity<>(payload, headers);
@@ -72,8 +71,9 @@ public class UserRegistrationController {
         HttpEntity<UserPasswordReset> entity = new HttpEntity<>(payload, headers);
 
         String userId = getUserId(userPassDTO.getUsername());
+
         String URL_RESET_PASSWORD = apiProperties.getKeycloak().getDomain()
-                + "/auth/admin/realms/users/" + userId + "/reset-password";
+                + "/auth/admin/realms/myrealm/users/" + userId + "/reset-password";
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Void> response = restTemplate.exchange(
@@ -119,7 +119,7 @@ public class UserRegistrationController {
         HttpEntity<String> request = new HttpEntity<>(headers);
         String URL_LIST_USER_ID = apiProperties.getKeycloak().getDomain() + "/auth/admin/realms/"
                 + apiProperties.getKeycloak().getRealm()
-                + "/users?user=" + username + "&max=1";
+                + "/users?username=" + username + "&exact=true";
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<List<UserInforResponse>> response = restTemplate.exchange(
