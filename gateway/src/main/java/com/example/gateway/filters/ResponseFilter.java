@@ -1,5 +1,6 @@
 package com.example.gateway.filters;
 
+import brave.Span;
 import brave.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,10 @@ public class ResponseFilter {
         this.tracer = tracer;
     }
 
+
+    /*
+    * The code that error, link: https://github.com/spring-cloud/spring-cloud-sleuth/issues/2049#issuecomment-955118966
+    *
     @Bean
     public GlobalFilter postGlobalFilter() {
         return (exchange, chain) ->
@@ -29,5 +34,29 @@ public class ResponseFilter {
                             logger.debug("Completing outgoing request for {}.", exchange.getRequest().getURI());
                         }
                     ));
+    }*/
+
+    /*The code I do myseftl */
+
+    @Bean
+    public GlobalFilter postGlobalFilter() {
+        return (exchange, chain) ->
+                chain.filter(exchange)
+                     .then(Mono.fromRunnable(() -> {
+                        Span span = tracer.currentSpan();
+                        String traceId = null;
+                        if (span != null) {
+                            traceId  = span.context().traceIdString();
+                            logger.debug("tracer.currentSpan() not null {}", traceId);
+                        } else {
+                            Span newSpan = tracer.newTrace();
+                            traceId = newSpan.context().traceIdString();
+                            logger.debug("Create new span to get new traceId {}", traceId);
+                        }
+                        logger.debug("Adding the correlation id to the outbound headers. {}", traceId);
+                        exchange.getResponse().getHeaders().add(FilterUtils.CORRELATION_ID, traceId);
+                        logger.debug("Completing outgoing request for {}.", exchange.getRequest().getURI());
+                     }
+                     ));
     }
 }
