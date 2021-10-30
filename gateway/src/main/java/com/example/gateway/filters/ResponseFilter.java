@@ -36,7 +36,7 @@ public class ResponseFilter {
                     ));
     }*/
 
-    /*The code I do myseftl */
+    /*The code I do myself */
 
     @Bean
     public GlobalFilter postGlobalFilter() {
