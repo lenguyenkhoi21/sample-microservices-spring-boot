@@ -22,8 +22,8 @@ public class RestAPI {
 
     @GetMapping("/api/v1/infor")
     public Information getInformation() {
-        logger.info("Entering the /api/v1/infor");
-        logger.info("/api/v1/infor Correlation id: {}", UserContext.getCorrelationId());
+        logger.debug("Entering the /api/v1/infor");
+        logger.debug("/api/v1/infor Correlation id: {}", UserContext.getCorrelationId());
         return Information
                 .builder()
                 .app_info("services-a")
