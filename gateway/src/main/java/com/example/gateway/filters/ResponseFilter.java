@@ -47,15 +47,15 @@ public class ResponseFilter {
                         String traceId;
                         if (span != null) {
                             traceId  = span.context().traceIdString();
-                            logger.debug("tracer.currentSpan() not null {}", traceId);
+                            logger.info("tracer.currentSpan() not null {}", traceId);
                         } else {
                             Span newSpan = tracer.newTrace();
                             traceId = newSpan.context().traceIdString();
-                            logger.debug("Create new span to get new traceId {}", traceId);
+                            logger.info("Create new span to get new traceId {}", traceId);
                         }
-                        logger.debug("Adding the correlation id to the outbound headers. {}", traceId);
+                        logger.info("Adding the correlation id to the outbound headers. {}", traceId);
                         exchange.getResponse().getHeaders().add(FilterUtils.CORRELATION_ID, traceId);
-                        logger.debug("Completing outgoing request for {}.", exchange.getRequest().getURI());
+                        logger.info("Completing outgoing request for {}.", exchange.getRequest().getURI());
                      }));
     }
 }
