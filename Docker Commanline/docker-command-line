@@ -9,3 +9,6 @@ docker run --rm --name Kibana --net elasticsearch -p 5601:5601 -e "ELASTICSEARCH
 
 Logstash
 docker run --rm --name Logstash --net elasticsearch -vE:\Data\Logstash\logstash.conf:/etc/logstash/conf.d/logstash.conf -p 5000:5000 logstash:7.14.2 logstash -f /etc/logstash/conf.d/logstash.conf
+
+Stop all container
+docker stop $(docker ps -a -q)
