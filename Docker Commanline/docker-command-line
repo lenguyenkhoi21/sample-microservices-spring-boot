@@ -1,0 +1,8 @@
+ElastichSearch
+docker run --rm --name Elasticserach --net elasticsearch -v E:\Data\ElastichSearch:/usr/share/elasticsearch/data -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.14.2
+
+Zipkin
+docker run --rm --name Zipkin --net elasticsearch -p 9411:9411 -e STORAGE_TYPE=elasticsearch -e ES_HOSTS=192.168.1.11:9300 openzipkin/zipkin
+
+Kibana
+docker run --rm --name Kibana --net elasticsearch -p 5601:5601 -e "ELASTICSEARCH_HOSTS=http://192.168.1.11:9200" kibana:7.14.2

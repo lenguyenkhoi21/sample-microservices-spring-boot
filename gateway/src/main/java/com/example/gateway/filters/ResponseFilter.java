@@ -44,7 +44,7 @@ public class ResponseFilter {
                 chain.filter(exchange)
                      .then(Mono.fromRunnable(() -> {
                         Span span = tracer.currentSpan();
-                        String traceId = null;
+                        String traceId;
                         if (span != null) {
                             traceId  = span.context().traceIdString();
                             logger.debug("tracer.currentSpan() not null {}", traceId);
@@ -56,7 +56,6 @@ public class ResponseFilter {
                         logger.debug("Adding the correlation id to the outbound headers. {}", traceId);
                         exchange.getResponse().getHeaders().add(FilterUtils.CORRELATION_ID, traceId);
                         logger.debug("Completing outgoing request for {}.", exchange.getRequest().getURI());
-                     }
-                     ));
+                     }));
     }
 }

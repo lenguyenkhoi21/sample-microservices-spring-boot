@@ -12,7 +12,6 @@ import java.io.IOException;
 public class UserContextFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(UserContextFilter.class);
 
-
     @Override
     public void doFilter(ServletRequest request,
                          ServletResponse response,
@@ -22,6 +21,10 @@ public class UserContextFilter implements Filter {
         UserContext.setCorrelationId(traceId);
         logger.debug("UserContextFilter Correlation id: {}", UserContext.getCorrelationId());
         chain.doFilter(httpServletRequest, response);
+
+        //Clean the ThreadLocal before quit
+        logger.debug("Remove UserContextFilter Correlation id: {}", UserContext.getCorrelationId());
+        UserContext.remove();
     }
 
 }
