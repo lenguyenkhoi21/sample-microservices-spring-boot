@@ -8,7 +8,7 @@ Kibana
 docker run --rm --name Kibana --net elasticsearch -p 5601:5601 -e "ELASTICSEARCH_HOSTS=http://192.168.1.11:9200" kibana:7.14.2
 
 Logstash
-docker run --rm --name Logstash --net elasticsearch -vE:\Data\Logstash\logstash.conf:/etc/logstash/conf.d/logstash.conf -p 5000:5000 logstash:7.14.2 logstash -f /etc/logstash/conf.d/logstash.conf
+docker run --rm --name Logstash --net elasticsearch -v E:\Data\Logstash\:/etc/logstash/conf.d/logstash.conf -p 5000:5000 logstash:7.14.2 logstash -f /etc/logstash/conf.d/logstash.conf
 
 Stop all container
 docker stop $(docker ps -a -q)
