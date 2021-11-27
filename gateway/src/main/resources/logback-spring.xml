@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration scan="true">
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
     <springProperty scope="context" name="logstashDomain" source="logstash.host"/>
+    <springProperty scope="context" name="logstashPort" source="logstash.port"/>
     <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>{logstashDomain}</destination>
+        <remoteHost>localhost</remoteHost>
+        <port>5000</port>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
     <root level="INFO">
-        <appender-ref ref="CONSOLE"/>
+<!--        <appender-ref ref="CONSOLE"/>-->
         <appender-ref ref="logstash"/>
     </root>
     <logger name="com.example.gateway" level="DEBUG" />
