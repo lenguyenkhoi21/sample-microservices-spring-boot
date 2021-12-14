@@ -4,10 +4,13 @@ import com.example.userregistation.DTO.UserDTO;
 import com.example.userregistation.DTO.UserPassDTO;
 import com.example.userregistation.config.ApiProperties;
 import com.example.userregistation.model.Token;
+import com.example.userregistation.payload.Credential;
 import com.example.userregistation.payload.UseRegistration;
 import com.example.userregistation.payload.UserPasswordReset;
 import com.example.userregistation.response.UserInforResponse;
 import com.example.userregistation.services.TokenService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -22,6 +25,7 @@ import java.util.List;
 @RestController
 public class UserRegistrationController {
 
+    private final Logger logger = LoggerFactory.getLogger(UserRegistrationController.class);
     private final ApiProperties apiProperties;
     private final TokenService tokenService;
 
@@ -40,6 +44,10 @@ public class UserRegistrationController {
                 .builder()
                 .username(userDTO.getUsername())
                 .build();
+
+        payload.getCredentials().add(Credential.builder()
+                                                .value(userDTO.getPassword())
+                                               .build());
 
         HttpEntity<UseRegistration> request = new HttpEntity<>(payload, headers);
 
@@ -88,6 +96,7 @@ public class UserRegistrationController {
 
     @PostMapping("/api/v1/login")
     public Token login(@RequestBody UserPassDTO userPassDTO) {
+        logger.info(userPassDTO.toString());
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED.toString());
         headers.add("Accept", MediaType.APPLICATION_JSON.toString());

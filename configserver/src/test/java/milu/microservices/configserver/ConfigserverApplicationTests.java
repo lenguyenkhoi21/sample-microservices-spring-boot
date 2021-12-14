@@ -10,4 +10,9 @@ class ConfigserverApplicationTests {
     void contextLoads() {
     }
 
+    @Test
+    void testcase1() {
+        System.out.println("Test case 1");
+        assert 1==1;
+    }
 }

@@ -3,4 +3,4 @@ spring:
     name: eruka-server
   cloud:
     config:
-      uri: http://localhost:8071
+      uri: http://config-server:8071

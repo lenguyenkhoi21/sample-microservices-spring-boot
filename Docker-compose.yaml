@@ -1,0 +1,33 @@
+version: '3.9'
+services:
+  config-server:
+    container_name: config-server
+    build: ./configserver
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8071/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  eureka-server:
+    container_name: eureka-server
+    build: ./erukaservice
+    ports:
+      - "8888:8888"
+    depends_on:
+      config-server:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  gateway-server:
+    build: ./gateway
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    deploy:
+      mode: replicated
+      replicas: 3

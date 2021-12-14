@@ -20,7 +20,5 @@ public class UseRegistration {
     @Builder.Default
     private boolean enabled = true;
     @Builder.Default
-    private List<String> requiredActions = new ArrayList<>();
-    @Builder.Default
-    private List<String> disableableCredentialTypes = new ArrayList<>();
+    private List<Credential> credentials = new ArrayList<>();
 }

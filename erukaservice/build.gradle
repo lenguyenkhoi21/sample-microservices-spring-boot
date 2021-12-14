@@ -39,3 +39,7 @@ dependencyManagement {
 test {
     useJUnitPlatform()
 }
+
+bootJar {
+    archiveFileName = 'eureka-server.jar'
+}

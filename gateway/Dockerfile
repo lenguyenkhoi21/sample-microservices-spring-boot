@@ -5,5 +5,5 @@ RUN gradle bootJar
 
 FROM openjdk:11 as run
 WORKDIR /app
-COPY --from=packageJar /home/gradle/project/build/libs/eureka-server.jar ./app.jar
+COPY --from=packageJar /home/gradle/project/build/libs/gateway-server.jar ./app.jar
 CMD ["java", "-jar", "app.jar"]
