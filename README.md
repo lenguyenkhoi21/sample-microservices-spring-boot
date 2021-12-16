@@ -15,8 +15,8 @@ The config repo here:
 [link](https://github.com/lenguyenkhoi21/configserver-file.git)
 
   2. With Docker: 
-  * docker-compose build
-  * docker-compose up –d
+  * ```docker-compose build```
+  * ```docker-compose up –d```
   
    With IDE (Vscode, IntelliJ, Escliped,…)
   * Open the termial in folder sample-microservices-spring-boot/configserver
