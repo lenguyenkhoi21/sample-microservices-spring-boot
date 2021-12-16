@@ -25,7 +25,7 @@ The config repo here:
   * Run the Gateway
   * Call API form Gateway
 
-  Each project, you can run with gradle command: gradlew :bootRun or gradle :bootRun
+  Each project, you can run with gradle command: ```gradlew :bootRun``` or ```gradle :bootRun```
   
   ---
   *Thanks to watching, if you like this project, you can fork this project.*
