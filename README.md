@@ -17,6 +17,7 @@ The config repo here:
   2. With Docker: 
   * docker-compose build
   * docker-compose up –d
+  
    With IDE (Vscode, IntelliJ, Escliped,…)
   * Open the termial in folder sample-microservices-spring-boot/configserver
   * Run the termial in folder sample-microservices-spring-boot/erukaservice
@@ -25,4 +26,5 @@ The config repo here:
   * Call API form Gateway
 
   Each project, you can run with gradle command: gradlew :bootRun or gradle :bootRun
-  3. Thanks to watching, if you like this project, you can fork this project.
+  
+  *Thanks to watching, if you like this project, you can fork this project.
