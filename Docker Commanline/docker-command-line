@@ -11,13 +11,16 @@ Logstash
 docker run --rm --name Logstash -v E:\Data\Logstash:/etc/logstash/conf.d -p 5000:5000 logstash:7.14.2
 
 Neo4j
-docker run --rm --name Neo4j -p 7474:7474 -p 7687:7687 -v E:\Data\Neo4j:/data neo4j
+docker run --rm --name Neo4j -d -p 7474:7474 -p 7687:7687 -v E:\Data\Neo4j:/data neo4j
 
 Zookeeper
 docker run --rm --name Zookeeper --net zookeeper -p 2181:2181 wurstmeister/zookeeper:latest
 
 Kafka
 docker run --rm --name Kafka -p 9092:9092 --net kafka -v E:\Data\Kafka:/var/run/docker.sock -e "KAFKA_ADVERTISED_HOST_NAME=kafka" -e "KAFKA_ADVERTISED_PORT=9092" -e "KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181" -e "KAFKA_CREATE_TOPICS=dresses:1:1,ratings:1:1" wurstmeister/zookeeper:latest
+
+KeyCloak
+docker run --rm -d --name KeyCloak -p 8080:8080 quay.io/keycloak/keycloak:latest
 
 Stop all container
 docker stop $(docker ps -a -q)

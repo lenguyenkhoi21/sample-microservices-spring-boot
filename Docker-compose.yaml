@@ -1,37 +1,87 @@
 version: '3.9'
 services:
-  config-server:
-    container_name: config-server
-    build: ./configserver
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8071/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-  eureka-server:
-    container_name: eureka-server
-    build: ./erukaservice
+#  config-server:
+#    container_name: config-server
+#    build: ./configserver
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:8071/actuator/health" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
+#  eureka-server:
+#    container_name: eureka-server
+#    build: ./erukaservice
+#    ports:
+#      - "8888:8888"
+#    depends_on:
+#      config-server:
+#        condition: service_healthy
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
+#  gateway-server:
+#    build: ./gateway
+#    ports:
+#      - "8090:8090"
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:8090/actuator/health" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
+#    depends_on:
+#      config-server:
+#        condition: service_healthy
+#      eureka-server:
+#        condition: service_healthy
+#  mysql-keycloak:
+#    container_name: mysql-keycloak
+#    image: mysql:latest
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=root
+#      - MYSQL_USER=keycloak
+#      - MYSQL_PASSWORD=password
+#      - MYSQL_DATABASE=keycloak
+#    volumes:
+#      - E:\Project\Microservices\sample-system\data\mysql:/var/lib/mysql
+#    ports:
+#      - "3306:3306"
+#    healthcheck:
+#      test: [ "CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$root' ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3
+#  keycloak-server:
+#    image: quay.io/keycloak/keycloak:latest
+#    command: [ "CMD", "/opt/jboss/keycloak/bin/standalone.sh" ]
+#    environment:
+#      - DB_VENDOR=MYSQL
+#      - DB_ADDR=mysql-keycloak
+#      - DB_DATABASE=keycloak
+#      - DB_USER=keycloak
+#      - DB_PASSWORD=password
+#      - KEYCLOAK_USER=admin
+#      - KEYCLOAK_PASSWORD=admin
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      mysql-keycloak:
+#        condition: service_healthy
+  postgresql:
+    image: docker.io/bitnami/postgresql:11
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - POSTGRESQL_USERNAME=bn_keycloak
+      - POSTGRESQL_DATABASE=bitnami_keycloak
+    volumes:
+      - 'E:\\Project\\Microservices\\sample-system\\data\\postgresql:/bitnami/postgresql'
     ports:
-      - "8888:8888"
+      - "5432:5432"
+  keycloak:
+    image: docker.io/bitnami/keycloak:15
     depends_on:
-      config-server:
-        condition: service_healthy
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-  gateway-server:
-    build: ./gateway
+      - postgresql
     ports:
-      - "8090:8090"
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8090/actuator/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    depends_on:
-      config-server:
-        condition: service_healthy
-      eureka-server:
-        condition: service_healthy
+      - "80:8080"
